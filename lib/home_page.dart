@@ -28,10 +28,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 30,
+              height: 0,
             ),
             Container(
-              color: Colors.blueGrey[200]!.withOpacity(0.5),
+              color: Colors.blue[100]!.withOpacity(0.1),
               height: 400,
               child: TableCalendar(
                 firstDay: DateTime.utc(2010, 10, 16),
@@ -74,16 +74,36 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: Center(
-                child: Text(_selectedDay.toString()),
-              ),
-              height: 40,
-              width: 200,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.blueGrey[100]),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  child: Center(
+                    child: Text(_selectedDay
+                        .toString()
+                        .replaceAll("00:00:00.000Z", "")),
+                  ),
+                  height: 40,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.blue[100]!.withOpacity(0.1),
+                  ),
+                ),
+                const Spacer(),
+                CircleAvatar(
+                  child: const Icon(Icons.add),
+                  backgroundColor: Colors.blue[100]!.withOpacity(0.5),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
             )
+            ,
+          
           ],
         ),
       ),
