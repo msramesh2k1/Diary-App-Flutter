@@ -131,15 +131,32 @@ class _HomePageState extends State<HomePage> {
                             .toString(),
                       )
                       .collection("diary")
+                      .where("id",
+                          isEqualTo: _selectedDay
+                              .toString()
+                              .replaceAll(" 00:00:00.000Z", ""))
                       .snapshots(),
                   builder: (context, snapshot) {
                     return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
-                          return Container(
-                            height: 100,
-                            color: Colors.amber,
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                  snapshot.data!.docs[index]['info'],
+                                  style: const TextStyle(fontSize: 20),
+                                  
+                                ),
+                              ),
+                              height: 200,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.blue.shade100.withOpacity(0.4)),
+                            ),
                           );
                         });
                   },
