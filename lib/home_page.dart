@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diary/phoneclass.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,14 +13,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _selectedDay = _focusedDay;
+    });
+  }
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
+    LoginController loginController = Provider.of<LoginController>(context);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         title: const Text(
           "My Diary ",
@@ -101,9 +115,38 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Expanded(
+              child: Container(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(
+                        loginController
+                            .setusermodel(FirebaseAuth.instance.currentUser)!
+                            .uid
+                            .toString(),
+                      )
+                      .collection("diary")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 100,
+                            color: Colors.amber,
+                          );
+                        });
+                  },
+                ),
+                color: Colors.blue[100]!.withOpacity(0.2),
+              ),
             )
-            ,
-          
           ],
         ),
       ),
