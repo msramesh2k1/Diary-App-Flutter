@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:diary/root.dart';
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
        const  Duration(seconds: 5),
         () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const LoginScreen())));
+            context, MaterialPageRoute(builder: (_) => const Root())));
   }
 
   @override
